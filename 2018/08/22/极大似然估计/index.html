@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://note.youdao.com/yws/public/resource/ef8a8e89c349f242af1b62f2240b9c10/xmlnote/DB196ADB7C98434F8A10D427FEA64F96/2713">
 <meta property="og:image" content="https://note.youdao.com/yws/public/resource/ef8a8e89c349f242af1b62f2240b9c10/xmlnote/9351BE627FDE4EAB8850A75305E4D3B7/2710">
-<meta property="og:updated_time" content="2018-08-22T10:21:21.863Z">
+<meta property="og:updated_time" content="2018-10-15T12:12:48.238Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="极大似然估计">
 <meta name="twitter:description" content="本文主要解释了极大似然估计的概念和计算方法，并以计算朴素贝叶斯中的先验概率为实例。">
@@ -359,35 +359,17 @@
 </blockquote>
 <p>大多数人肯定会猜测这个球是黑色的。因为黑球数量多，拿出的球是黑球的可能性最大。</p>
 <p>这就是<strong>极大似然估计（maximum likelihood estimation, MLE）</strong> 的思维过程。极大似然估计也可以通俗地称为<strong>最可能估计</strong>。</p>
-<h4 id="2-定义"><a href="#2-定义" class="headerlink" title="2.定义"></a>2.定义</h4><p>在之前的介绍似然函数的文章中，已经写出了似然的定义，如下。</p>
-<script type="math/tex; mode=display">
-L(\theta|data) = P(data|\theta) = \prod_{i=1}^NP(x_i|\theta)     
-\\
-data = (x_1,x_2,...,x_n)</script><p>而极大似然估计要做的就是使$L(\theta|data)$的值最大，然后得到相应的$\theta$值，即：</p>
-<script type="math/tex; mode=display">
-\hat\theta = \mathop{argmax}_\theta L(\theta|data)</script><p>$\hat\theta$ 使得 $L(\theta)$ 的取值最大，那么$\hat\theta$ 是$\theta$ 的极大似然估计值。</p>
+<h4 id="2-定义"><a href="#2-定义" class="headerlink" title="2.定义"></a>2.定义</h4><p>在之前的介绍似然函数的文章中，已经写出了似然的定义，如下。<br>$$<br>L(\theta|data) = P(data|\theta) = \prod_{i=1}^NP(x_i|\theta)<br>\<br>data = (x_1,x_2,…,x_n)<br>$$<br>而极大似然估计要做的就是使$L(\theta|data)$的值最大，然后得到相应的$\theta$值，即：<br>$$<br>\hat\theta = \mathop{argmax}_\theta L(\theta|data)<br>$$<br>$\hat\theta$ 使得 $L(\theta)$ 的取值最大，那么$\hat\theta$ 是$\theta$ 的极大似然估计值。</p>
 <h4 id="3-举例"><a href="#3-举例" class="headerlink" title="3.举例"></a>3.举例</h4><p>以上一篇文章中的抛硬币问题为例，H表示硬币正面朝上，概率为p(也就是似然中的参数)，T表示硬币背面朝上，概率为1-p。</p>
-<p>先将硬币抛掷两次，如果两次硬币都是正面朝上，可以写出这样的似然函数：</p>
-<script type="math/tex; mode=display">
-L(p|HH) = P(HH;p) = p * p</script><p>把这个函数画出来，如下图，是一个顶点在原点的抛物线，</p>
+<p>先将硬币抛掷两次，如果两次硬币都是正面朝上，可以写出这样的似然函数：<br>$$<br>L(p|HH) = P(HH;p) = p * p<br>$$<br>把这个函数画出来，如下图，是一个顶点在原点的抛物线，</p>
 <p><img src="https://note.youdao.com/yws/public/resource/ef8a8e89c349f242af1b62f2240b9c10/xmlnote/DB196ADB7C98434F8A10D427FEA64F96/2713" alt="似然函数图像"></p>
 <p>可以看到横轴p取得1，似然函数值最大。</p>
-<p>此时我们再将硬币抛掷三次，硬币两次正面朝上，一次反面朝上，</p>
-<script type="math/tex; mode=display">
-L(p|HHT) = P(HHT;p) = p*p*(1-p)</script><p>函数如下图，</p>
+<p>此时我们再将硬币抛掷三次，硬币两次正面朝上，一次反面朝上，<br>$$<br>L(p|HHT) = P(HHT;p) = p<em>p</em>(1-p)<br>$$<br>函数如下图，</p>
 <p><img src="https://note.youdao.com/yws/public/resource/ef8a8e89c349f242af1b62f2240b9c10/xmlnote/9351BE627FDE4EAB8850A75305E4D3B7/2710" alt="似然函数图像"></p>
 <p>此时横轴p取得0.66时，似然函数值最大。</p>
 <p>可以看到这两次的实验结果并不符合正常抛硬币的主观经验，出现这个问题主要是因为实验次数过少。</p>
 <p>继续以硬币为例，尝试通过计算得到极大似然估计的结果。</p>
-<p>假设投掷硬币N次，正面n次，则似然函数可以表达为： </p>
-<script type="math/tex; mode=display">
-L(p|data) = P(data;p) = p^{n}*(1-p)^{N-n}</script><p>要求这个似然函数最大值，为了简化计算，我们将$ln$加入这个函数（由于对数函数属于单调递增函数，因此不会改变原函数的极值点），将幂转为系数($ln(a^b) = blna$)，将累乘转为累加（$ln(ab)=lna+lnb$）。所以可以将添加了对数的似然函数称为<strong>对数似然函数</strong>。</p>
-<script type="math/tex; mode=display">
-lnL(p|data) = nlnp+(N-n)ln(1-p)</script><p>接着对这个对数似然函数求导，并令导数为0，求极值。（一个函数在某一点的一阶导数为0是这个函数在该点取得极值点的必要条件）</p>
-<script type="math/tex; mode=display">
-\frac{dlnL(p|data)}{dp} = \frac{n}{p} - \frac{N-n}{1-p} = 0</script><p>故</p>
-<script type="math/tex; mode=display">
-p = \frac{n}{N}</script><p>根据极大似然估计，硬币正面朝上的概率，就是正面出现的概率除以总的投掷次数，换句话说，就是正面出现的频率 。</p>
+<p>假设投掷硬币N次，正面n次，则似然函数可以表达为：<br>$$<br>L(p|data) = P(data;p) = p^{n}*(1-p)^{N-n}<br>$$<br>要求这个似然函数最大值，为了简化计算，我们将$ln$加入这个函数（由于对数函数属于单调递增函数，因此不会改变原函数的极值点），将幂转为系数($ln(a^b) = blna$)，将累乘转为累加（$ln(ab)=lna+lnb$）。所以可以将添加了对数的似然函数称为<strong>对数似然函数</strong>。<br>$$<br>lnL(p|data) = nlnp+(N-n)ln(1-p)<br>$$<br>接着对这个对数似然函数求导，并令导数为0，求极值。（一个函数在某一点的一阶导数为0是这个函数在该点取得极值点的必要条件）<br>$$<br>\frac{dlnL(p|data)}{dp} = \frac{n}{p} - \frac{N-n}{1-p} = 0<br>$$<br>故<br>$$<br>p = \frac{n}{N}<br>$$<br>根据极大似然估计，硬币正面朝上的概率，就是正面出现的概率除以总的投掷次数，换句话说，就是正面出现的频率 。</p>
 <p>（题外话：极大似然估计是频率学派眼中估计概率的方式 。可是这样估计，如果我只投掷了1次，正面出现1次，按照最大似然估计我硬币正面的概率就是1，这是明显有问题的。这时贝叶斯学派站出来了，说我们觉得这样估计参数有问题，还应该考虑一些在做实验之前的经验，例如这枚硬币如果没被动过手脚，那么其正面的概率应该在0.5附近。贝叶斯学派认为应该把这些做实验之前的经验（先验概率）加入到参数估计的过程中，于是提出了最大后验估计。）</p>
 <h4 id="4-总结计算方式"><a href="#4-总结计算方式" class="headerlink" title="4.总结计算方式"></a>4.总结计算方式</h4><ol>
 <li>构造似然函数$L(\theta)$</li>
@@ -405,19 +387,9 @@ p = \frac{n}{N}</script><p>根据极大似然估计，硬币正面朝上的概�
 </ol>
 <h4 id="5-补充一个实例，利用极大似然估计计算朴素贝叶斯法中的先验概率"><a href="#5-补充一个实例，利用极大似然估计计算朴素贝叶斯法中的先验概率" class="headerlink" title="5.补充一个实例，利用极大似然估计计算朴素贝叶斯法中的先验概率"></a>5.补充一个实例，利用极大似然估计计算朴素贝叶斯法中的先验概率</h4><p>这一点作为补充，没有接触过朴素贝叶斯的先不用看。</p>
 <p>此处的朴素贝叶斯用于文档分类，文档共有K类，使用$c_k$表示文档类别。</p>
-<p>这个问题要求解每个文档类别的先验概率，也就是求解参数$（）\theta_k = P（Y=c_k）,k\epsilon\{1,2,…,K\}$。</p>
-<p>给定N个文档，每个文档都有各自的类别，使用$y_i$表示第$i$个文档所属类别。</p>
-<script type="math/tex; mode=display">
-L(\theta_k|data) = L(\theta_k|y_1,y_2,...,y_N) =P(y1,y2,...,y_N;\theta_k)   \\  =\prod_{i=1}^{N}P(y_i;\theta_k)=\prod_{i=1}^{N}P_{\theta_k}(y_i) =\prod_{i=1}^{N}(\sum_{k=1}^K\theta_kI(y_i=c_k))= \prod_{k=1}^{K}\theta_k^{N_k}</script><p>最后的$N_k$表示N个文档中，属于K类的文档个数。</p>
-<p>接着取对数，</p>
-<script type="math/tex; mode=display">
-l(\theta_k) = lnL(\theta_k|data) = \sum_{k=1}^{K}N_kln\theta_k</script><p>要求该函数的最大值，注意到约束条件$\sum_{k=1}^K\theta_k = 1$可以用拉格朗日乘子法，即 </p>
-<script type="math/tex; mode=display">
-l(\theta_k,\lambda) = \sum_{k=1}^K{N_kln\theta_k} + \lambda(\sum_{k=1}^K\theta_k-1)</script><p>求导就可以得到</p>
-<script type="math/tex; mode=display">
-\frac{N_k}{\theta_k}+\lambda=0</script><p>联立所有的k以及约束条件得到</p>
-<script type="math/tex; mode=display">
-\theta_k = \frac{N_k}{N}</script><p>完毕。</p>
+<p>这个问题要求解每个文档类别的先验概率，也就是求解参数$（）\theta_k = P（Y=c_k）,k\epsilon{1,2,…,K}$。</p>
+<p>给定N个文档，每个文档都有各自的类别，使用$y_i$表示第$i$个文档所属类别。<br>$$<br>L(\theta_k|data) = L(\theta_k|y_1,y_2,…,y_N) =P(y1,y2,…,y_N;\theta_k)   \  =\prod_{i=1}^{N}P(y_i;\theta_k)=\prod_{i=1}^{N}P_{\theta_k}(y_i) =\prod_{i=1}^{N}(\sum_{k=1}^K\theta_kI(y_i=c_k))= \prod_{k=1}^{K}\theta_k^{N_k}<br>$$<br>最后的$N_k$表示N个文档中，属于K类的文档个数。</p>
+<p>接着取对数，<br>$$<br>l(\theta_k) = lnL(\theta_k|data) = \sum_{k=1}^{K}N_kln\theta_k<br>$$<br>要求该函数的最大值，注意到约束条件$\sum_{k=1}^K\theta_k = 1$可以用拉格朗日乘子法，即<br>$$<br>l(\theta_k,\lambda) = \sum_{k=1}^K{N_kln\theta_k} + \lambda(\sum_{k=1}^K\theta_k-1)<br>$$<br>求导就可以得到<br>$$<br>\frac{N_k}{\theta_k}+\lambda=0<br>$$<br>联立所有的k以及约束条件得到<br>$$<br>\theta_k = \frac{N_k}{N}<br>$$<br>完毕。</p>
 
       
     </div>
@@ -535,7 +507,7 @@ l(\theta_k,\lambda) = \sum_{k=1}^K{N_kln\theta_k} + \lambda(\sum_{k=1}^K\theta_k
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -548,7 +520,7 @@ l(\theta_k,\lambda) = \sum_{k=1}^K{N_kln\theta_k} + \lambda(\sum_{k=1}^K\theta_k
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

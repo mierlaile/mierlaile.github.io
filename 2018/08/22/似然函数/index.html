@@ -88,7 +88,7 @@
 <meta property="og:description" content="本文主要解释了似然的概念，似然和概率的区别和联系。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://note.youdao.com/yws/public/resource/ef8a8e89c349f242af1b62f2240b9c10/xmlnote/DB196ADB7C98434F8A10D427FEA64F96/2713">
-<meta property="og:updated_time" content="2018-08-22T10:21:21.861Z">
+<meta property="og:updated_time" content="2018-10-15T12:12:48.237Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="似然函数">
 <meta name="twitter:description" content="本文主要解释了似然的概念，似然和概率的区别和联系。">
@@ -356,34 +356,20 @@
 <p>概率描述了已知参数时的随机变量的输出结果；似然则用来描述已知随机变量输出结果时，<strong>未知参数的可能取值</strong>。</p>
 <p>例如，对于“一枚正反对称的硬币上抛十次”这种事件，我们可以问硬币落地时十次都是正面向上的“概率”是多少；而对于“一枚硬币上抛十次”，我们则可以问，这枚硬币正反面对称的“似然”程度是多少。</p>
 <p>区别似然和概率的直接方法为，”谁谁谁的概率”中<strong>谁谁谁只能是事件</strong>，也就是，事件(发生)的概率是多少；而”谁谁谁的似然”中的<strong>谁谁谁只能是参数</strong>，比如说，参数等于某个值时的似然是多少。</p>
-<h4 id="2-似然与概率的联系"><a href="#2-似然与概率的联系" class="headerlink" title="2. 似然与概率的联系"></a>2. 似然与概率的联系</h4><p>先看似然函数的定义。关于参数$\theta$的似然函数$L(\theta|data)$（在数值上）等于给定参数$\theta$后变量$data$的概率（两者的相等并不是说两个函数是同一个，只是数值上的相等，如果还不理解这个定义为什么是这样，可以先跳过往下看）：</p>
-<script type="math/tex; mode=display">
-L(\theta|data) = P(data|\theta) = \prod_{i=1}^NP(x_i|\theta)     
-\\
-data = (x_1,x_2,...,x_n)</script><p>存在两个疑问：</p>
+<h4 id="2-似然与概率的联系"><a href="#2-似然与概率的联系" class="headerlink" title="2. 似然与概率的联系"></a>2. 似然与概率的联系</h4><p>先看似然函数的定义。关于参数$\theta$的似然函数$L(\theta|data)$（在数值上）等于给定参数$\theta$后变量$data$的概率（两者的相等并不是说两个函数是同一个，只是数值上的相等，如果还不理解这个定义为什么是这样，可以先跳过往下看）：<br>$$<br>L(\theta|data) = P(data|\theta) = \prod_{i=1}^NP(x_i|\theta)<br>\<br>data = (x_1,x_2,…,x_n)<br>$$<br>存在两个疑问：</p>
 <ol>
 <li>似然函数 (likelihood function) 为什么会写成条件概率的形式？</li>
 <li>给定的明明是$data$，为什么公式的右边，却变成了给定 $\theta$ 呢？</li>
 </ol>
 <p><strong>常说的概率是指给定参数后，预测即将发生的事件的可能性</strong>。拿硬币这个例子来说，我们已知一枚均匀硬币的正反面概率分别是0.5($p = p_H = p_ T = 0.5$)，要预测抛两次硬币，正面都朝上的概率：</p>
 <p>H代表Head，表示正面朝上</p>
-<p>也就是$data = (x_1,x_2) = (H,H)$</p>
-<script type="math/tex; mode=display">
-P(HH | p = 0.5) = \prod_{i=1}^2 P(x_i|p=0.5) = 0.5*0.5 = 0.25</script><p>这种写法其实有点误导，后面的这个$p$其实是作为参数存在的（其实用$\theta$表示参数更好看一些，但是这里还要表示硬币正面朝上的概率，所以就先用$p$来做表示），而不是一个随机变量，因此不能算作是条件概率，更靠谱的写法应该是 $P(HH;p=0.5)$，分号<code>;</code>表示把参数隔开。平常求概率的时候是不写参数的，因为参数（硬币正面朝上的概率）是确定的，但这里是在讲解似然函数，参数是似然函数最终要求得的结果，所以这里就显式表明了参数的取值。比如，在其他参数取值下，可以写成$P(HH | p = 0.4) = 0.4*0.4 = 0.16$。</p>
+<p>也就是$data = (x_1,x_2) = (H,H)$<br>$$<br>P(HH | p = 0.5) = \prod_{i=1}^2 P(x_i|p=0.5) = 0.5<em>0.5 = 0.25<br>$$<br>这种写法其实有点误导，后面的这个$p$其实是作为参数存在的（其实用$\theta$表示参数更好看一些，但是这里还要表示硬币正面朝上的概率，所以就先用$p$来做表示），而不是一个随机变量，因此不能算作是条件概率，更靠谱的写法应该是 $P(HH;p=0.5)$，分号<code>;</code>表示把参数隔开。平常求概率的时候是不写参数的，因为参数（硬币正面朝上的概率）是确定的，但这里是在讲解似然函数，参数是似然函数最终要求得的结果，所以这里就显式表明了参数的取值。比如，在其他参数取值下，可以写成$P(HH | p = 0.4) = 0.4</em>0.4 = 0.16$。</p>
 <p><strong>似然概率正好与这个过程相反，我们关注的量不再是事件的发生概率，而是已知发生了某些事件，我们希望知道参数应该是多少。</strong></p>
 <p>现在我们已经抛了两次硬币，并且知道了结果是两次正面朝上，这时候，我希望知道这枚硬币抛出去正面朝上的概率为0.5的概率是多少？正面朝上的概率为0.8的概率是多少？（这里的0.5和0.8就是之前提到的参数）</p>
-<p>如果我们希望知道正面朝上概率为0.5的概率，这个东西就叫做似然函数，可以说成是对某一个参数的猜想（$p=0.5$）的概率，这样表示成(条件)概率就是</p>
-<script type="math/tex; mode=display">
-L(p=0.5|HH) = P(HH|p=0.5) = P(HH;p=0.5)</script><p>为什么可以写成这样？我觉得可以这样来想：</p>
-<p>似然函数本身也是一种概率，我们可以把$L(p=0.5|HH)$写成$P(p=0.5|HH)$； 而根据贝叶斯公式，$P(p=0.5|HH) = P(p=0.5,HH)/P(HH)$；既然$HH$是已经发生的事件，理所当然$P(HH) = 1$,所以：</p>
-<script type="math/tex; mode=display">
-P(p=0.5|HH) = P(p=0.5,HH) = P(HH;p=0.5)</script><p>右边的这个计算我们很熟悉了，就是已知正面朝上概率为0.5，求抛两次都是H的概率，即0.5*0.5=0.25。</p>
-<p>所以，我们可以得到</p>
-<script type="math/tex; mode=display">
-L(p=0.5|HH) = P(HH|p=0.5) = 0.25</script><p>这个0.25的意思是，在已知抛出两个正面的情况下，$p = 0.5$的概率等于0.25。</p>
-<p>再算一下</p>
-<script type="math/tex; mode=display">
-L(p=0.6|HH) = P(HH|p=0.6) = 0.36</script><p>把p从0~1的取值所得到的似然函数的曲线画出来得到这样一张图：</p>
+<p>如果我们希望知道正面朝上概率为0.5的概率，这个东西就叫做似然函数，可以说成是对某一个参数的猜想（$p=0.5$）的概率，这样表示成(条件)概率就是<br>$$<br>L(p=0.5|HH) = P(HH|p=0.5) = P(HH;p=0.5)<br>$$<br>为什么可以写成这样？我觉得可以这样来想：</p>
+<p>似然函数本身也是一种概率，我们可以把$L(p=0.5|HH)$写成$P(p=0.5|HH)$； 而根据贝叶斯公式，$P(p=0.5|HH) = P(p=0.5,HH)/P(HH)$；既然$HH$是已经发生的事件，理所当然$P(HH) = 1$,所以：<br>$$<br>P(p=0.5|HH) = P(p=0.5,HH) = P(HH;p=0.5)<br>$$<br>右边的这个计算我们很熟悉了，就是已知正面朝上概率为0.5，求抛两次都是H的概率，即0.5*0.5=0.25。</p>
+<p>所以，我们可以得到<br>$$<br>L(p=0.5|HH) = P(HH|p=0.5) = 0.25<br>$$<br>这个0.25的意思是，在已知抛出两个正面的情况下，$p = 0.5$的概率等于0.25。</p>
+<p>再算一下<br>$$<br>L(p=0.6|HH) = P(HH|p=0.6) = 0.36<br>$$<br>把p从0~1的取值所得到的似然函数的曲线画出来得到这样一张图：</p>
 <p><img src="https://note.youdao.com/yws/public/resource/ef8a8e89c349f242af1b62f2240b9c10/xmlnote/DB196ADB7C98434F8A10D427FEA64F96/2713" alt="image"></p>
 <p>可以发现，$p = 1$的概率是最大的。</p>
 <p>即$L(p = 1|HH) = 1$。</p>
@@ -392,23 +378,12 @@ L(p=0.6|HH) = P(HH|p=0.6) = 0.36</script><p>把p从0~1的取值所得到的似�
 <p>这就不难理解，在数据挖掘领域，许多求参数的方法最终都归结为极大似然估计的问题。</p>
 <p>回到这个硬币的例子上来，在观测到HH的情况下，$p = 1$是最合理的（却未必符合真实情况，因为数据量太少的缘故）。</p>
 <p>希望大家看到这里，可以明白似然函数为什么这样定义，还不明白就记住它吧，毕竟定义是定死的。</p>
-<h4 id="3-似然函数遇到离散和连续数据两种情况"><a href="#3-似然函数遇到离散和连续数据两种情况" class="headerlink" title="3. 似然函数遇到离散和连续数据两种情况"></a>3. 似然函数遇到离散和连续数据两种情况</h4><h5 id="3-1-x-1-x-2-…-x-n-是离散数据"><a href="#3-1-x-1-x-2-…-x-n-是离散数据" class="headerlink" title="3.1 $x_1,x_2,…,x_n$是离散数据"></a>3.1 $x_1,x_2,…,x_n$是离散数据</h5><p>上面关于硬币的例子就是离散型数据。此时可以具体给出$P_\theta(x_i)$的值，即代表在给定参数$\theta$下取得$x_i$的概率。</p>
-<script type="math/tex; mode=display">
-L(\theta|data) = P(data|\theta) = P(data;\theta) = P_\theta(data) = \prod_{i=1}^NP_\theta(x_i)     
-\\
-data = (x_1,x_2,...x_i,...,x_n)</script><p>使用上式就可以求出给定参数$\theta$和$data$时，离散型随机变量对应的似然。</p>
-<p>如果我们发现</p>
-<script type="math/tex; mode=display">
-L(\theta_1|data) = P_{\theta_1}(data) = \prod_{i=1}^NP_{\theta_1}(x_i)   > \prod_{i=1}^NP_{\theta_2}(x_i) = P_{\theta_2}(data) = L(\theta_2|data)</script><p>那么似然函数就反应出这样一个朴素推测：在参数$\theta_1$下随机向量$data$取到值$(x_1,x_2,…,x_n)$的可能性大于 在参数$\theta_2$下随机向量$data$取到值$(x_1,x_2,…,x_n)$的可能性。换句话说，我们更有理由相信(相对于$\theta_2$来说)$\theta_1$更有可能是真实值。这里的可能性由概率来刻画。</p>
-<h5 id="3-2-x-1-x-2-…-x-n-是连续数据"><a href="#3-2-x-1-x-2-…-x-n-是连续数据" class="headerlink" title="3.2 $x_1,x_2,…,x_n$是连续数据"></a>3.2 $x_1,x_2,…,x_n$是连续数据</h5><p>因为是连续型数据，所以无法给出$P_\theta(x_i)$的值或者说$P_\theta(x_i)$的值为零，而可以给出的是概率密度$f$，也就是一个区间内的概率。给定一个充分小$\epsilon &gt; 0$，那么随机变量$x_i$取值在$(x - \epsilon, x + \epsilon)$区间内的概率即为</p>
-<script type="math/tex; mode=display">
-P_{\theta}(x-\epsilon < x_i < x+\epsilon) = \int_{x-\epsilon}^{x+\epsilon}f(x_i|\theta)dx \approx 2\epsilon f(x_i|\theta) = 2\epsilon P(x_i|\theta) = 2\epsilon L(\theta|x_i)</script><p>建立了似然函数和概率之间的关系，就可以像离散型变量一样，比较两个参数的似然，得到一个推测，如下所示。</p>
-<script type="math/tex; mode=display">
-L(\theta_1|data) \propto  P_{\theta_1}(data) \propto \prod_{i=1}^NP_{\theta_1}(x-\epsilon <x_i< x+\epsilon) 
-
->
-
-\prod_{i=1}^NP_{\theta_2}(x-\epsilon <x_i< x+\epsilon) \propto P_{\theta_2}(data) \propto L(\theta_2|data)</script><p>推测：在参数$\theta_1$下随机向量$data$取到值$(x_1,x_2,…,x_n)$的可能性大于 在参数$\theta_2$下随机向量$data$取到值$(x_1,x_2,…,x_n)$的可能性。</p>
+<h4 id="3-似然函数遇到离散和连续数据两种情况"><a href="#3-似然函数遇到离散和连续数据两种情况" class="headerlink" title="3. 似然函数遇到离散和连续数据两种情况"></a>3. 似然函数遇到离散和连续数据两种情况</h4><h5 id="3-1-x-1-x-2-…-x-n-是离散数据"><a href="#3-1-x-1-x-2-…-x-n-是离散数据" class="headerlink" title="3.1 $x_1,x_2,…,x_n$是离散数据"></a>3.1 $x_1,x_2,…,x_n$是离散数据</h5><p>上面关于硬币的例子就是离散型数据。此时可以具体给出$P_\theta(x_i)$的值，即代表在给定参数$\theta$下取得$x_i$的概率。<br>$$<br>L(\theta|data) = P(data|\theta) = P(data;\theta) = P_\theta(data) = \prod_{i=1}^NP_\theta(x_i)<br>\<br>data = (x_1,x_2,…x_i,…,x_n)<br>$$<br>使用上式就可以求出给定参数$\theta$和$data$时，离散型随机变量对应的似然。</p>
+<p>如果我们发现<br>$$<br>L(\theta_1|data) = P_{\theta_1}(data) = \prod_{i=1}^NP_{\theta_1}(x_i)   &gt; \prod_{i=1}^NP_{\theta_2}(x_i) = P_{\theta_2}(data) = L(\theta_2|data)<br>$$<br>那么似然函数就反应出这样一个朴素推测：在参数$\theta_1$下随机向量$data$取到值$(x_1,x_2,…,x_n)$的可能性大于 在参数$\theta_2$下随机向量$data$取到值$(x_1,x_2,…,x_n)$的可能性。换句话说，我们更有理由相信(相对于$\theta_2$来说)$\theta_1$更有可能是真实值。这里的可能性由概率来刻画。</p>
+<h5 id="3-2-x-1-x-2-…-x-n-是连续数据"><a href="#3-2-x-1-x-2-…-x-n-是连续数据" class="headerlink" title="3.2 $x_1,x_2,…,x_n$是连续数据"></a>3.2 $x_1,x_2,…,x_n$是连续数据</h5><p>因为是连续型数据，所以无法给出$P_\theta(x_i)$的值或者说$P_\theta(x_i)$的值为零，而可以给出的是概率密度$f$，也就是一个区间内的概率。给定一个充分小$\epsilon &gt; 0$，那么随机变量$x_i$取值在$(x - \epsilon, x + \epsilon)$区间内的概率即为<br>$$<br>P_{\theta}(x-\epsilon &lt; x_i &lt; x+\epsilon) = \int_{x-\epsilon}^{x+\epsilon}f(x_i|\theta)dx \approx 2\epsilon f(x_i|\theta) = 2\epsilon P(x_i|\theta) = 2\epsilon L(\theta|x_i)<br>$$<br>建立了似然函数和概率之间的关系，就可以像离散型变量一样，比较两个参数的似然，得到一个推测，如下所示。<br>$$<br>L(\theta_1|data) \propto  P_{\theta_1}(data) \propto \prod_{i=1}^NP_{\theta_1}(x-\epsilon &lt;x_i&lt; x+\epsilon) </p>
+<blockquote>
+</blockquote>
+<p>\prod_{i=1}^NP_{\theta_2}(x-\epsilon &lt;x_i&lt; x+\epsilon) \propto P_{\theta_2}(data) \propto L(\theta_2|data)<br>$$<br>推测：在参数$\theta_1$下随机向量$data$取到值$(x_1,x_2,…,x_n)$的可能性大于 在参数$\theta_2$下随机向量$data$取到值$(x_1,x_2,…,x_n)$的可能性。</p>
 <p>综上，概率(密度)表达给定$\theta$下取得$data$的可能性，而似然表达了给定$data$下参数$\theta_1$(相对于另外的参数$\theta_2$)为真实值的可能性。</p>
 
       
@@ -451,6 +426,10 @@ L(\theta_1|data) \propto  P_{\theta_1}(data) \propto \prod_{i=1}^NP_{\theta_1}(x
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/15/遇到的c-问题/" rel="prev" title="遇到的c++问题">
+                遇到的c++问题 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -527,7 +506,7 @@ L(\theta_1|data) \propto  P_{\theta_1}(data) \propto \prod_{i=1}^NP_{\theta_1}(x
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -540,7 +519,7 @@ L(\theta_1|data) \propto  P_{\theta_1}(data) \propto \prod_{i=1}^NP_{\theta_1}(x
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

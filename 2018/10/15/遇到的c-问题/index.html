@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="c++," />
 
 
 
@@ -79,16 +79,18 @@
 
 
 
-<meta name="description" content="Blog of mier">
-<meta property="og:type" content="website">
-<meta property="og:title" content="mier&#39;s Notes">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="本文主要记录本人在写c++时遇到的一些坑和问题。">
+<meta name="keywords" content="c++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="遇到的c++问题">
+<meta property="og:url" content="http://yoursite.com/2018/10/15/遇到的c-问题/index.html">
 <meta property="og:site_name" content="mier&#39;s Notes">
-<meta property="og:description" content="Blog of mier">
+<meta property="og:description" content="本文主要记录本人在写c++时遇到的一些坑和问题。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-15T12:57:17.190Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mier&#39;s Notes">
-<meta name="twitter:description" content="Blog of mier">
+<meta name="twitter:title" content="遇到的c++问题">
+<meta name="twitter:description" content="本文主要记录本人在写c++时遇到的一些坑和问题。">
 
 
 
@@ -118,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/10/15/遇到的c-问题/"/>
 
 
 
 
 
-  <title>mier's Notes</title>
+  <title>遇到的c++问题 | mier's Notes</title>
   
 
 
@@ -143,8 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -261,9 +262,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -293,9 +294,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/15/遇到的c-问题/" itemprop="url">遇到的c++问题</a></h1>
+          <h1 class="post-title" itemprop="name headline">遇到的c++问题</h1>
         
 
         <div class="post-meta">
@@ -345,16 +344,26 @@
       
 
       
-        
-          <p>本文主要记录本人在写c++时遇到的一些坑和问题。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/10/15/遇到的c-问题/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+        <p>本文主要记录本人在写c++时遇到的一些坑和问题。</p>
+<a id="more"></a>
+<h3 id="1-头文件string-h、cstring、string之间的区别"><a href="#1-头文件string-h、cstring、string之间的区别" class="headerlink" title="1.头文件string.h、cstring、string之间的区别"></a>1.头文件string.h、cstring、string之间的区别</h3><p><strong>&lt;string.h&gt;</strong>是C中的头文件，包含比如strcpy、strcat之类的字符串处理函数。</p>
+<p><strong><cstring></cstring></strong>是C++中的string.h。</p>
+<p><strong><string></string></strong>是C++标准定义的头文件，定义了一个string的字符串类。</p>
+<p>所以<strong>&lt;string.h&gt;</strong>和<strong><cstring></cstring></strong>其实是一个东西，但它们跟<strong><string></string></strong>完全不是一个东西。</p>
+<h3 id="2-memset的正确用法"><a href="#2-memset的正确用法" class="headerlink" title="2.memset的正确用法"></a>2.memset的正确用法</h3><p>需要的头文件：在C中 &lt;string.h&gt;，在C++中<string>。</string></p>
+<p>void <em>memset(void </em>s,int c,size_t n) 将已开辟内存空间 s 的首 <strong>n 个字节</strong>的值设为值 c 。</p>
+<p>举例：</p>
+<p>1.初始化或者清空一个字符数组。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> a[<span class="number">10</span>];</span><br><span class="line"><span class="built_in">memset</span>(a,<span class="string">'\0'</span>,<span class="keyword">sizeof</span>(a));</span><br></pre></td></tr></table></figure>
+<p>2.为一个字符数组赋值。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> a[<span class="number">11</span>];</span><br><span class="line"><span class="built_in">memset</span>(a,<span class="string">'1'</span>,<span class="keyword">sizeof</span>(a)<span class="number">-1</span>);<span class="comment">//为终止字符'\0'留一个空间</span></span><br><span class="line"><span class="comment">//输出：1111111111</span></span><br></pre></td></tr></table></figure>
+<p>3.为一个整型数组赋值。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a[<span class="number">10</span>];</span><br><span class="line"><span class="built_in">memset</span>(a,<span class="number">1</span>,<span class="keyword">sizeof</span>(a));</span><br></pre></td></tr></table></figure>
+<p>以为数组a中所有的元素都会变为1，｛1,1,1,1,1,1,1,1,1,1｝，但并不是这样。实际输出是｛16843009,16843009,…,16843009｝。</p>
+<p>原因就在于：memset是逐字节赋值的，而一个int是4个字节</p>
+<p>上面代码运行后，一个int会变为：0000 0001 0000 0001 0000 0001 0000 0001。（一个字节8位）这个值换算为十进制就是 16843009。所以这样的操作会失败。</p>
+<p>所以，在memset使用时要千万小心，在给char以外的数组赋值时，只能初始化为0或者-1。因为在计算机里，0的二进制都是0，-1的二进制都是1。</p>
+
       
     </div>
     
@@ -369,262 +378,36 @@
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/22/似然函数/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="mier">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="mier's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/22/似然函数/" itemprop="url">似然函数</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-22T16:41:52+08:00">
-                2018-08-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-
+            <a href="/tags/c/" rel="tag"># c++</a>
           
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
+      
 
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+      
       
       
 
       
-        
-          <p>本文主要解释了似然的概念，似然和概率的区别和联系。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/08/22/似然函数/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/22/似然函数/" rel="next" title="似然函数">
+                <i class="fa fa-chevron-left"></i> 似然函数
+              </a>
+            
           </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
 
-    
+          <span class="post-nav-divider"></span>
 
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/22/极大似然估计/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="mier">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="mier's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/22/极大似然估计/" itemprop="url">极大似然估计</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+          <div class="post-nav-prev post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-22T16:28:26+08:00">
-                2018-08-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <p>本文主要解释了极大似然估计的概念和计算方法，并以计算朴素贝叶斯中的先验概率为实例。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/08/22/极大似然估计/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -634,10 +417,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -645,6 +429,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -665,8 +453,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -717,6 +514,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-头文件string-h、cstring、string之间的区别"><span class="nav-text">1.头文件string.h、cstring、string之间的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-memset的正确用法"><span class="nav-text">2.memset的正确用法</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -850,6 +663,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -1224,26 +1041,6 @@
   
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
