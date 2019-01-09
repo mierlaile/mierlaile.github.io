@@ -1,0 +1,11 @@
+hexo n新建一篇文章
+hexo g生成public静态文件
+hexo s在本地看
+hexo d发布
+git add .
+git commit -m "message"
+git push origin hexo
+
+如果遇到public\index.html丢失的问题，那么
+npm install(--save)
+
